@@ -5,7 +5,6 @@ import com.mx.gtorreblanca.pointsaleadmin.models.UserVO;
 import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +40,20 @@ public class UserController {
         try {
 
             return ResponseEntity.ok().body(userService.getAllUsers());
+        } catch (BusinessException e) {
+            log.error(e.getMessage(),e);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getById (@PathVariable final Long id) {
+
+        try {
+            return ResponseEntity.ok().body(userService.getById(id));
         } catch (BusinessException e) {
             log.error(e.getMessage(),e);
             return ResponseEntity.badRequest().body(e.getMessage());

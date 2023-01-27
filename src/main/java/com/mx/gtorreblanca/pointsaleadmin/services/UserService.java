@@ -10,4 +10,5 @@ public interface UserService {
     void registerDefaultUser(final UserVO userVO)throws BusinessException;
     void saveUser (final UserVO userVO)throws BusinessException;
     List<UserVO> getAllUsers ()throws BusinessException;
+    UserVO getById (Long id)throws BusinessException;
 }

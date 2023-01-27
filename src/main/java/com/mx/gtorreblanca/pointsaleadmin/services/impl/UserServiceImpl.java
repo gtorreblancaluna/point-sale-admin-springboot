@@ -13,9 +13,9 @@ import com.mx.gtorreblanca.pointsaleadmin.services.RoleService;
 import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,6 +65,18 @@ public class UserServiceImpl implements UserService {
         }
 
         return users;
+    }
+
+    @Override
+    public UserVO getById(Long id) throws BusinessException {
+        Optional<User> optionalUser =
+                userRepository.findById(id);
+
+        if (optionalUser.isEmpty()) {
+            throw new NoDataFoundException();
+        }
+
+        return buildVO(optionalUser.get());
     }
 
     private Role build (RoleVO roleVO) {
