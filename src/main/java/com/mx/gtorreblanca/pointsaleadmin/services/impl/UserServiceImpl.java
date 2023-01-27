@@ -1,6 +1,5 @@
 package com.mx.gtorreblanca.pointsaleadmin.services.impl;
 
-import com.mx.gtorreblanca.pointsaleadmin.config.CustomPasswordEncoder;
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
@@ -12,6 +11,7 @@ import com.mx.gtorreblanca.pointsaleadmin.models.UserVO;
 import com.mx.gtorreblanca.pointsaleadmin.services.RoleService;
 import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
@@ -21,13 +21,13 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final RoleService roleService;
-    private final CustomPasswordEncoder customPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public UserServiceImpl(RoleService roleService, UserRepository userRepository, @Lazy CustomPasswordEncoder customPasswordEncoder) {
+    public UserServiceImpl(RoleService roleService, UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.roleService = roleService;
         this.userRepository = userRepository;
-        this.customPasswordEncoder = customPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(userVO.getPhoneNumber())
                 .name(userVO.getName())
                 .lastName(userVO.getLastName())
-                .password(customPasswordEncoder.encode(userVO.getPassword()))
+                .password(passwordEncoder.encode(userVO.getPassword()))
                 .roles(new HashSet<>())
                 .build();
     }

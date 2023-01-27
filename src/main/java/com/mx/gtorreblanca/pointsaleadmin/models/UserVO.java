@@ -24,6 +24,10 @@ public class UserVO {
     @Email(message = ValidationMessageConstant.USER_EMAIL)
     private String email;
 
+    @Size(min = 10, max = 200, message = ValidationMessageConstant.USER_NAME)
+    @NotEmpty(message = ValidationMessageConstant.USER_NAME)
+    private String username;
+
     @Size(min=10,max=10)
     @Pattern(regexp=ValidationMessageConstant.REGEX_PATTERN_PHONE_NUMBER)
     @NotEmpty(message = ValidationMessageConstant.USER_PHONE_NUMBER_NOT_EMPTY)
