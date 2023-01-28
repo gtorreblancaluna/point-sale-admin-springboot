@@ -1,4 +1,4 @@
-package com.mx.gtorreblanca.pointsaleadmin.models;
+package com.mx.gtorreblanca.pointsaleadmin.models.requests;
 
 import com.mx.gtorreblanca.pointsaleadmin.constants.ValidationMessageConstant;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class UserVO {
+public class UserRequest {
 
     @Size(min = 10, max = 200, message = ValidationMessageConstant.USER_NAME)
     @NotEmpty(message = ValidationMessageConstant.USER_NAME)
@@ -36,5 +36,5 @@ public class UserVO {
     @NotEmpty(message = ValidationMessageConstant.USER_PASSWORD)
     private String password;
 
-    private List<RoleVO> roles;
+    private List<RoleRequest> roles;
 }

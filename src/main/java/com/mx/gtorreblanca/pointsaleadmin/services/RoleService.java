@@ -1,9 +1,9 @@
 package com.mx.gtorreblanca.pointsaleadmin.services;
 
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
-import com.mx.gtorreblanca.pointsaleadmin.models.RoleVO;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.RoleRequest;
 
 public interface RoleService {
 
-    RoleVO findByName (String name)throws NoDataFoundException;
+    RoleRequest findByName (String name)throws NoDataFoundException;
 }

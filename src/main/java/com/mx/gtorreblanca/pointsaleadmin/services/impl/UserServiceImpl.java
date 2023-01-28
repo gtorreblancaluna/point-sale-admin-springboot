@@ -3,11 +3,11 @@ package com.mx.gtorreblanca.pointsaleadmin.services.impl;
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
-import com.mx.gtorreblanca.pointsaleadmin.models.RoleVO;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.RoleRequest;
 import com.mx.gtorreblanca.pointsaleadmin.repositories.UserRepository;
 import com.mx.gtorreblanca.pointsaleadmin.entities.Role;
 import com.mx.gtorreblanca.pointsaleadmin.entities.User;
-import com.mx.gtorreblanca.pointsaleadmin.models.UserVO;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
 import com.mx.gtorreblanca.pointsaleadmin.services.RoleService;
 import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
 import org.springframework.context.annotation.Lazy;
@@ -31,30 +31,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerDefaultUser(final UserVO userVO) throws BusinessException {
-        RoleVO roleVO = roleService.findByName(RoleConstant.ROLE_USER);
-        User user = build(userVO);
-        user.addRole(build(roleVO));
+    public void registerDefaultUser(final UserRequest userRequest) throws BusinessException {
+        RoleRequest roleRequest = roleService.findByName(RoleConstant.ROLE_USER);
+        User user = build(userRequest);
+        user.addRole(build(roleRequest));
         userRepository.save(user);
     }
 
     @Override
-    public void saveUser(final UserVO userVO) throws BusinessException {
+    public void saveUser(final UserRequest userRequest) throws BusinessException {
 
-        if (userVO.getRoles() == null || userVO.getRoles().isEmpty()) {
-            registerDefaultUser(userVO);
+        if (userRequest.getRoles() == null || userRequest.getRoles().isEmpty()) {
+            registerDefaultUser(userRequest);
         } else {
-            User user = build(userVO);
-            for (RoleVO roleVO : userVO.getRoles()) {
-                user.addRole(build(roleVO));
+            User user = build(userRequest);
+            for (RoleRequest roleRequest : userRequest.getRoles()) {
+                user.addRole(build(roleRequest));
             }
             userRepository.save(user);
         }
     }
 
     @Override
-    public List<UserVO> getAllUsers() throws BusinessException {
-        List<UserVO> users = userRepository
+    public List<UserRequest> getAllUsers() throws BusinessException {
+        List<UserRequest> users = userRepository
                 .findAll()
                 .stream()
                 .map(this::buildVO)
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getById(Long id) throws BusinessException {
+    public UserRequest getById(Long id) throws BusinessException {
         Optional<User> optionalUser =
                 userRepository.findById(id);
 
@@ -79,44 +79,44 @@ public class UserServiceImpl implements UserService {
         return buildVO(optionalUser.get());
     }
 
-    private Role build (RoleVO roleVO) {
+    private Role build (RoleRequest roleRequest) {
         return Role.builder()
-                .id(roleVO.getId())
-                .name(roleVO.getName())
+                .id(roleRequest.getId())
+                .name(roleRequest.getName())
                 .build();
     }
 
-    private RoleVO buildVO (Role role) {
-        return RoleVO.builder()
+    private RoleRequest buildVO (Role role) {
+        return RoleRequest.builder()
                 .id(role.getId())
                 .name(role.getName())
                 .build();
     }
-    private User build (UserVO userVO) {
+    private User build (UserRequest userRequest) {
         return User.builder()
-                .email(userVO.getEmail())
-                .phoneNumber(userVO.getPhoneNumber())
-                .name(userVO.getName())
-                .lastName(userVO.getLastName())
-                .password(passwordEncoder.encode(userVO.getPassword()))
+                .email(userRequest.getEmail())
+                .phoneNumber(userRequest.getPhoneNumber())
+                .name(userRequest.getName())
+                .lastName(userRequest.getLastName())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .roles(new HashSet<>())
                 .build();
     }
 
-    private UserVO buildVO (User user) {
-        UserVO userVO = UserVO.builder()
+    private UserRequest buildVO (User user) {
+        UserRequest userRequest = UserRequest.builder()
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .build();
 
-        userVO.setRoles(
+        userRequest.setRoles(
                 user.getRoles()
                         .stream()
                         .map(this::buildVO)
                         .toList());
 
-        return userVO;
+        return userRequest;
     }
 }

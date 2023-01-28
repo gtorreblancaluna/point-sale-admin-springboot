@@ -1,7 +1,7 @@
 package com.mx.gtorreblanca.pointsaleadmin.controllers;
 
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
-import com.mx.gtorreblanca.pointsaleadmin.models.UserVO;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
 import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
@@ -20,10 +20,10 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveUser (@RequestBody UserVO userVO) {
+    public ResponseEntity<Object> saveUser (@RequestBody UserRequest userRequest) {
 
         try {
-            userService.saveUser(userVO);
+            userService.saveUser(userRequest);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (BusinessException e) {
             log.error(e.getMessage(),e);
