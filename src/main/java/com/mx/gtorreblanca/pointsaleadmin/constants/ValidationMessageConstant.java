@@ -1,5 +1,9 @@
 package com.mx.gtorreblanca.pointsaleadmin.constants;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValidationMessageConstant {
     public static final String USER_NAME = "Name must be between 10 and 200 characters.";
     public static final String USER_LAST_NAME = "Last Name must be between 10 and 200 characters.";

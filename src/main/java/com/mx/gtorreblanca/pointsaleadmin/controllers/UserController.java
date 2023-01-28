@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity saveUser (@RequestBody UserVO userVO) {
+    public ResponseEntity<Object> saveUser (@RequestBody UserVO userVO) {
 
         try {
             userService.saveUser(userVO);
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity getAllUser () {
+    public ResponseEntity<Object> getAllUser () {
 
         try {
 
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getById (@PathVariable final Long id) {
+    public ResponseEntity<Object> getById (@PathVariable final Long id) {
 
         try {
             return ResponseEntity.ok().body(userService.getById(id));

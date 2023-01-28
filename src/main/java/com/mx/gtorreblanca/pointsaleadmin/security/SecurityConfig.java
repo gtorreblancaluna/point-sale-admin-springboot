@@ -1,4 +1,4 @@
-package com.mx.gtorreblanca.pointsaleadmin.config;
+package com.mx.gtorreblanca.pointsaleadmin.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,14 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
 
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private JwtRequestFilter jwtRequestFilter;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter,UserDetailsService userDetailsService, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter,JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtRequestFilter = jwtRequestFilter;
     }
@@ -46,7 +43,7 @@ public class SecurityConfig {
 
         return http.csrf()
                 .disable()
-                .authorizeHttpRequests((authorize) ->
+                .authorizeHttpRequests(authorize ->
                         //authorize.anyRequest().authenticated()
                         {
                             try {
