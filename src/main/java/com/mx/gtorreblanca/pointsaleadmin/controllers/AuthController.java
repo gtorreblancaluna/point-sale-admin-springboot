@@ -2,7 +2,7 @@ package com.mx.gtorreblanca.pointsaleadmin.controllers;
 
 import com.mx.gtorreblanca.pointsaleadmin.security.JwtTokenUtil;
 import com.mx.gtorreblanca.pointsaleadmin.dtos.LoginDto;
-import com.mx.gtorreblanca.pointsaleadmin.services.CustomUserDetailsService;
+import com.mx.gtorreblanca.pointsaleadmin.services.user.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;

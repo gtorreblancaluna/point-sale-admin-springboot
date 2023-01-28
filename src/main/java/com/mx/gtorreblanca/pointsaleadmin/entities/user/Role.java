@@ -1,4 +1,4 @@
-package com.mx.gtorreblanca.pointsaleadmin.entities;
+package com.mx.gtorreblanca.pointsaleadmin.entities.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

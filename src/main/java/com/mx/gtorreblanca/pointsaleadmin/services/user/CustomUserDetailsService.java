@@ -1,7 +1,7 @@
-package com.mx.gtorreblanca.pointsaleadmin.services;
+package com.mx.gtorreblanca.pointsaleadmin.services.user;
 
-import com.mx.gtorreblanca.pointsaleadmin.entities.User;
-import com.mx.gtorreblanca.pointsaleadmin.repositories.UserRepository;
+import com.mx.gtorreblanca.pointsaleadmin.entities.user.User;
+import com.mx.gtorreblanca.pointsaleadmin.repositories.user.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

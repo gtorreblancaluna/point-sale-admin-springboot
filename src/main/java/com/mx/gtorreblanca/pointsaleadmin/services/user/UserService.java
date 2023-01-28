@@ -1,4 +1,4 @@
-package com.mx.gtorreblanca.pointsaleadmin.services;
+package com.mx.gtorreblanca.pointsaleadmin.services.user;
 
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;

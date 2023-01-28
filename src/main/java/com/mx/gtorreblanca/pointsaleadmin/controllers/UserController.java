@@ -2,7 +2,7 @@ package com.mx.gtorreblanca.pointsaleadmin.controllers;
 
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
-import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
+import com.mx.gtorreblanca.pointsaleadmin.services.user.UserService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

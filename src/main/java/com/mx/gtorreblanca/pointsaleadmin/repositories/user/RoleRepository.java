@@ -1,6 +1,6 @@
-package com.mx.gtorreblanca.pointsaleadmin.repositories;
+package com.mx.gtorreblanca.pointsaleadmin.repositories.user;
 
-import com.mx.gtorreblanca.pointsaleadmin.entities.Role;
+import com.mx.gtorreblanca.pointsaleadmin.entities.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

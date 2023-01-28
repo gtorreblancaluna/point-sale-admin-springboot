@@ -1,15 +1,15 @@
-package com.mx.gtorreblanca.pointsaleadmin.services.impl;
+package com.mx.gtorreblanca.pointsaleadmin.services.user.impl;
 
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.RoleRequest;
-import com.mx.gtorreblanca.pointsaleadmin.repositories.UserRepository;
-import com.mx.gtorreblanca.pointsaleadmin.entities.Role;
-import com.mx.gtorreblanca.pointsaleadmin.entities.User;
+import com.mx.gtorreblanca.pointsaleadmin.repositories.user.UserRepository;
+import com.mx.gtorreblanca.pointsaleadmin.entities.user.Role;
+import com.mx.gtorreblanca.pointsaleadmin.entities.user.User;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
-import com.mx.gtorreblanca.pointsaleadmin.services.RoleService;
-import com.mx.gtorreblanca.pointsaleadmin.services.UserService;
+import com.mx.gtorreblanca.pointsaleadmin.services.user.RoleService;
+import com.mx.gtorreblanca.pointsaleadmin.services.user.UserService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
