@@ -2,8 +2,11 @@ package com.mx.gtorreblanca.pointsaleadmin.services.user.impl;
 
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
+import com.mx.gtorreblanca.pointsaleadmin.exeptions.DataOriginException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.RoleRequest;
+import com.mx.gtorreblanca.pointsaleadmin.models.responses.user.RoleResponse;
+import com.mx.gtorreblanca.pointsaleadmin.models.responses.user.UserResponse;
 import com.mx.gtorreblanca.pointsaleadmin.repositories.user.UserRepository;
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.Role;
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.User;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j
@@ -38,7 +42,7 @@ public class UserServiceImpl implements UserService {
         User user = build(userRequest);
         user.addRole(build(roleRequest));
         log.info("User to save: "+ user);
-        userRepository.save(user);
+        save(user);
     }
 
     @Override
@@ -51,16 +55,16 @@ public class UserServiceImpl implements UserService {
             for (RoleRequest roleRequest : userRequest.getRoles()) {
                 user.addRole(build(roleRequest));
             }
-            userRepository.save(user);
+            save(user);
         }
     }
 
     @Override
-    public List<UserRequest> getAllUsers() throws BusinessException {
-        List<UserRequest> users = userRepository
+    public List<UserResponse> getAllUsers() throws BusinessException {
+        List<UserResponse> users = userRepository
                 .findByEnabledTrue()
                 .stream()
-                .map(this::buildVO)
+                .map(this::buildResponse)
                 .toList();
 
         if (users.isEmpty()) {
@@ -71,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserRequest getById(Long id) throws BusinessException {
+    public UserResponse getById(Long id) throws BusinessException {
         Optional<User> optionalUser =
                 userRepository.findById(id);
 
@@ -79,7 +83,7 @@ public class UserServiceImpl implements UserService {
             throw new NoDataFoundException();
         }
 
-        return buildVO(optionalUser.get());
+        return buildResponse(optionalUser.get());
     }
 
     private Role build (RoleRequest roleRequest) {
@@ -89,8 +93,8 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private RoleRequest buildVO (Role role) {
-        return RoleRequest.builder()
+    private RoleResponse buildRoleResponse (Role role) {
+        return RoleResponse.builder()
                 .id(role.getId())
                 .name(role.getName())
                 .build();
@@ -107,21 +111,28 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private UserRequest buildVO (User user) {
-        UserRequest userRequest = UserRequest.builder()
+    private UserResponse buildResponse (User user) {
+
+        return UserResponse.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .username(user.getUsername())
+                .roles(
+                        user.getRoles()
+                                .stream()
+                                .map(this::buildRoleResponse)
+                                .collect(Collectors.toSet()))
                 .build();
+    }
 
-        userRequest.setRoles(
-                user.getRoles()
-                        .stream()
-                        .map(this::buildVO)
-                        .toList());
-
-        return userRequest;
+    private void save (User user) throws BusinessException {
+        try {
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new DataOriginException(e.getMessage(),e);
+        }
     }
 }

@@ -1,9 +1,11 @@
 package com.mx.gtorreblanca.pointsaleadmin.exeptions;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.MessageExceptionConstant;
+
 public class NoDataFoundException extends BusinessException{
 
     private transient Throwable cause;
-    private transient String message;
+    private transient String message = MessageExceptionConstant.NO_DATA_FOUND_MESSAGE;
 
     public NoDataFoundException() {
         super();

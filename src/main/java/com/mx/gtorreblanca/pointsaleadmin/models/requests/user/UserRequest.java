@@ -4,7 +4,7 @@ import com.mx.gtorreblanca.pointsaleadmin.constants.ValidationMessageConstant;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -33,5 +33,5 @@ public class UserRequest {
     @NotEmpty(message = ValidationMessageConstant.USER_PASSWORD)
     private String password;
 
-    private List<RoleRequest> roles;
+    private Set<RoleRequest> roles;
 }
