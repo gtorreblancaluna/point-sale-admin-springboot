@@ -1,5 +1,6 @@
 package com.mx.gtorreblanca.pointsaleadmin.controllers;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.ApiUriConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.UserRequest;
 import com.mx.gtorreblanca.pointsaleadmin.services.user.UserService;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(ApiUriConstant.API+ApiUriConstant.USERS)
 @Log4j
 public class UserController {
 
@@ -39,7 +40,6 @@ public class UserController {
     public ResponseEntity<Object> getAllUser () {
 
         try {
-
             return ResponseEntity.ok().body(userService.getAllUsers());
         } catch (BusinessException e) {
             log.error(e.getMessage(),e);
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById (@PathVariable final Long id) {
+    public ResponseEntity<Object> getById (@Valid @PathVariable final Long id) {
 
         try {
             return ResponseEntity.ok().body(userService.getById(id));
