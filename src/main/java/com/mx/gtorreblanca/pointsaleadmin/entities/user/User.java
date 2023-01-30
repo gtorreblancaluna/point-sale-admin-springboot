@@ -21,6 +21,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 @Setter(value = AccessLevel.PACKAGE)
 @Getter
+@ToString
 public class User {
 
     @Id
@@ -44,6 +45,9 @@ public class User {
 
     @Column(name = "phone_number", nullable = true, length = 20)
     private String phoneNumber;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

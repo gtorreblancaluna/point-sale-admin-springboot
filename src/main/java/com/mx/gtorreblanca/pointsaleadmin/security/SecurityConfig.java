@@ -2,6 +2,7 @@ package com.mx.gtorreblanca.pointsaleadmin.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -46,7 +47,7 @@ public class SecurityConfig {
                         {
                             try {
                                 authorize
-                                        //.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                        //.requestMatchers(HttpMethod.POST, "/api/**").permitAll()
                                         .requestMatchers("/api/auth/**").permitAll()
                                         .anyRequest().authenticated()
                                         .and()

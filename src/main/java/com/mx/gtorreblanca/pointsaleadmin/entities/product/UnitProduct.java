@@ -17,6 +17,6 @@ public class UnitProduct {
     private Long id;
     @Column(nullable = false, length = 145)
     private String name;
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean enabled;
 }

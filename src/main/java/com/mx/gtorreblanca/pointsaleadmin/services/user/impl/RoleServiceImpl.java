@@ -2,7 +2,7 @@ package com.mx.gtorreblanca.pointsaleadmin.services.user.impl;
 
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.Role;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
-import com.mx.gtorreblanca.pointsaleadmin.models.requests.RoleRequest;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.RoleRequest;
 import com.mx.gtorreblanca.pointsaleadmin.repositories.user.RoleRepository;
 import com.mx.gtorreblanca.pointsaleadmin.services.user.RoleService;
 import org.springframework.stereotype.Service;

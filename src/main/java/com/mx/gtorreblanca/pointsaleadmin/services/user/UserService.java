@@ -1,7 +1,7 @@
 package com.mx.gtorreblanca.pointsaleadmin.services.user;
 
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
-import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.UserRequest;
 
 import java.util.List;
 

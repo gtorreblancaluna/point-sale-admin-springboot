@@ -18,8 +18,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 80)
     private String code;
 
+    @Column(length = 80)
     private String code2;
 
     @Column(nullable = false, length = 145)

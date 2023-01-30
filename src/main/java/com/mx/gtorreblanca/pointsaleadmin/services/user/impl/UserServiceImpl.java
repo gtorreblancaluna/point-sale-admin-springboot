@@ -3,13 +3,14 @@ package com.mx.gtorreblanca.pointsaleadmin.services.user.impl;
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.NoDataFoundException;
-import com.mx.gtorreblanca.pointsaleadmin.models.requests.RoleRequest;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.RoleRequest;
 import com.mx.gtorreblanca.pointsaleadmin.repositories.user.UserRepository;
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.Role;
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.User;
-import com.mx.gtorreblanca.pointsaleadmin.models.requests.UserRequest;
+import com.mx.gtorreblanca.pointsaleadmin.models.requests.user.UserRequest;
 import com.mx.gtorreblanca.pointsaleadmin.services.user.RoleService;
 import com.mx.gtorreblanca.pointsaleadmin.services.user.UserService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j
 public class UserServiceImpl implements UserService {
 
     private final RoleService roleService;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
         RoleRequest roleRequest = roleService.findByName(RoleConstant.ROLE_USER);
         User user = build(userRequest);
         user.addRole(build(roleRequest));
+        log.info("User to save: "+ user);
         userRepository.save(user);
     }
 
@@ -55,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserRequest> getAllUsers() throws BusinessException {
         List<UserRequest> users = userRepository
-                .findAll()
+                .findByEnabledTrue()
                 .stream()
                 .map(this::buildVO)
                 .toList();
@@ -99,6 +102,7 @@ public class UserServiceImpl implements UserService {
                 .name(userRequest.getName())
                 .lastName(userRequest.getLastName())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
+                .username(userRequest.getUsername())
                 .roles(new HashSet<>())
                 .build();
     }
@@ -109,6 +113,7 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName())
                 .lastName(user.getLastName())
+                .username(user.getUsername())
                 .build();
 
         userRequest.setRoles(

@@ -1,4 +1,4 @@
-package com.mx.gtorreblanca.pointsaleadmin.models.requests;
+package com.mx.gtorreblanca.pointsaleadmin.models.requests.user;
 
 import lombok.Builder;
 import lombok.Data;
