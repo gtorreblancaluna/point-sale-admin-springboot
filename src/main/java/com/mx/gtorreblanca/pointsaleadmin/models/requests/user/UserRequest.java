@@ -10,6 +10,8 @@ import java.util.Set;
 @Builder
 public class UserRequest {
 
+    private Long id;
+
     @Size(min = 5, max = 200, message = ValidationMessageConstant.USER_NAME)
     @NotEmpty(message = ValidationMessageConstant.USER_NAME)
     private String name;

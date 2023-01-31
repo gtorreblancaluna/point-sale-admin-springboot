@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 public class ApiUriConstant {
     public static final String API = "/api";
     public static final String USERS = "/users";
+    public static final String AUTH = "/auth";
 }

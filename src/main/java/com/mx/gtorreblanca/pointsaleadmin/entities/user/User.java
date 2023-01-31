@@ -1,16 +1,7 @@
 package com.mx.gtorreblanca.pointsaleadmin.entities.user;
 
 import com.mx.gtorreblanca.pointsaleadmin.constants.ColumnDefinitionConstant;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,30 +35,22 @@ public class User {
     @Column(nullable = false, length = 45)
     private String name;
 
-    @Column(name = "last_name", nullable = false, length = 45)
+    @Column(nullable = false, length = 45)
     private String lastName;
 
-    @Column(name = "phone_number", length = 10)
+    @Column(length = 10)
     private String phoneNumber;
 
-    @Column(nullable = false,
-            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
-    )
-    private boolean enabled;
-
-    @CreationTimestamp
     @Column(
             nullable = false,
-            name = ColumnDefinitionConstant.CREATED_AT_COLUMN_NAME,
-            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
     )
+    private Boolean enabled;
+
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false,
-            name = ColumnDefinitionConstant.UPDATED_AT_COLUMN_NAME,
-            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
-    )
     private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -80,5 +63,16 @@ public class User {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    @PrePersist
+    void preInsert() {
+            this.enabled = true;
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        if (this.enabled == null)
+            this.enabled = true;
     }
 }

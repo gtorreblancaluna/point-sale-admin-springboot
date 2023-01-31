@@ -1,5 +1,6 @@
 package com.mx.gtorreblanca.pointsaleadmin.services.user.impl;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.MessageExceptionConstant;
 import com.mx.gtorreblanca.pointsaleadmin.constants.RoleConstant;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.BusinessException;
 import com.mx.gtorreblanca.pointsaleadmin.exeptions.DataOriginException;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,10 +51,12 @@ public class UserServiceImpl implements UserService {
         if (userRequest.getRoles() == null || userRequest.getRoles().isEmpty()) {
             registerDefaultUser(userRequest);
         } else {
-            User user = build(userRequest);
-            for (RoleRequest roleRequest : userRequest.getRoles()) {
-                user.addRole(build(roleRequest));
-            }
+            var user = build(userRequest);
+
+            userRequest.getRoles()
+                    .stream()
+                    .forEach(role -> user.addRole(build(role)));
+
             save(user);
         }
     }
@@ -76,14 +78,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getById(Long id) throws BusinessException {
-        Optional<User> optionalUser =
-                userRepository.findById(id);
+        var user = userRepository.findById(id)
+                        .orElseThrow(() ->
+                        new NoDataFoundException(MessageExceptionConstant.USERNAME_NOT_FOUND_EXCEPTION));
 
-        if (optionalUser.isEmpty()) {
-            throw new NoDataFoundException();
-        }
-
-        return buildResponse(optionalUser.get());
+        return buildResponse(user);
     }
 
     private Role build (RoleRequest roleRequest) {
@@ -101,6 +100,7 @@ public class UserServiceImpl implements UserService {
     }
     private User build (UserRequest userRequest) {
         return User.builder()
+                .id(userRequest.getId())
                 .email(userRequest.getEmail())
                 .phoneNumber(userRequest.getPhoneNumber())
                 .name(userRequest.getName())
@@ -120,6 +120,8 @@ public class UserServiceImpl implements UserService {
                 .name(user.getName())
                 .lastName(user.getLastName())
                 .username(user.getUsername())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .roles(
                         user.getRoles()
                                 .stream()

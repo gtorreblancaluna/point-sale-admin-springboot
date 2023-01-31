@@ -36,6 +36,21 @@ public class UserController {
         }
     }
 
+    @PutMapping
+    public ResponseEntity<Object> updateUser (@Valid @RequestBody UserRequest userRequest) {
+
+        try {
+            userService.saveUser(userRequest);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch (BusinessException e) {
+            log.error(e.getMessage(),e);
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<Object> getAllUser () {
 
