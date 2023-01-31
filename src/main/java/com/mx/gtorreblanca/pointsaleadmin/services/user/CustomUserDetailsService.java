@@ -1,5 +1,6 @@
 package com.mx.gtorreblanca.pointsaleadmin.services.user;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.MessageExceptionConstant;
 import com.mx.gtorreblanca.pointsaleadmin.entities.user.User;
 import com.mx.gtorreblanca.pointsaleadmin.repositories.user.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,9 +23,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+        User user = userRepository.findByUsernameOrEmailAndEnabledTrue(usernameOrEmail, usernameOrEmail)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email: "+ usernameOrEmail));
+                        new UsernameNotFoundException(MessageExceptionConstant.USERNAME_NOT_FOUND_EXCEPTION+ usernameOrEmail));
 
         Set<GrantedAuthority> authorities = user
                 .getRoles()

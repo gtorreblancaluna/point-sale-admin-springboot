@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 public class MessageExceptionConstant {
     public static final String NO_DATA_FOUND_MESSAGE = "No data found exception";
     public static final String DATA_ORIGIN_MESSAGE = "Data origin exception";
+    public static final String USERNAME_NOT_FOUND_EXCEPTION = "User not found with username or email: ";
 }
