@@ -1,5 +1,6 @@
 package com.mx.gtorreblanca.pointsaleadmin.entities.user;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.ColumnDefinitionConstant;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -11,11 +12,14 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.FetchType;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = ColumnDefinitionConstant.USERS_TABLE_NAME)
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
@@ -37,17 +41,34 @@ public class User {
     @Column(nullable = false, length = 64)
     private String password;
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(nullable = false, length = 45)
     private String name;
 
-    @Column(name = "last_name", nullable = false, length = 20)
+    @Column(name = "last_name", nullable = false, length = 45)
     private String lastName;
 
-    @Column(name = "phone_number", nullable = true, length = 20)
+    @Column(name = "phone_number", length = 10)
     private String phoneNumber;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+    @Column(nullable = false,
+            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
+    )
     private boolean enabled;
+
+    @CreationTimestamp
+    @Column(
+            nullable = false,
+            name = ColumnDefinitionConstant.CREATED_AT_COLUMN_NAME,
+            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+    )
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false,
+            name = ColumnDefinitionConstant.UPDATED_AT_COLUMN_NAME,
+            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+    )
+    private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

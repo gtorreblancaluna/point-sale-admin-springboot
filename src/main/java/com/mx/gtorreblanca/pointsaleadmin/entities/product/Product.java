@@ -1,12 +1,16 @@
 package com.mx.gtorreblanca.pointsaleadmin.entities.product;
 
+import com.mx.gtorreblanca.pointsaleadmin.constants.ColumnDefinitionConstant;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "products")
+@Table(name = ColumnDefinitionConstant.PRODUCTS_TABLE_NAME)
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
@@ -27,9 +31,6 @@ public class Product {
     @Column(nullable = false, length = 145)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
-    private boolean enabled;
-
     @ManyToOne
     @JoinColumn(name = "unit_purchase_id")
     private UnitProduct unitPurchase;
@@ -40,6 +41,26 @@ public class Product {
 
     @Column(nullable = false)
     private Integer factor;
+
+    @Column(nullable = false,
+            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
+    )
+    private boolean enabled;
+
+    @CreationTimestamp
+    @Column(
+            nullable = false,
+            name = ColumnDefinitionConstant.CREATED_AT_COLUMN_NAME,
+            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+    )
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false,
+            name = ColumnDefinitionConstant.UPDATED_AT_COLUMN_NAME,
+            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+    )
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
