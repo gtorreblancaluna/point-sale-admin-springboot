@@ -48,9 +48,11 @@ public class User {
     private Boolean enabled;
 
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @ManyToMany(fetch = FetchType.EAGER)

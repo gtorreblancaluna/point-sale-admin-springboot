@@ -33,38 +33,32 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "unit_purchase_id")
-    private UnitProduct unitPurchase;
+    private UnitProductCatalog unitPurchase;
 
     @ManyToOne
     @JoinColumn(name = "unit_sales_id")
-    private UnitProduct unitSales;
+    private UnitProductCatalog unitSales;
 
     @Column(nullable = false)
     private Integer factor;
 
-    @Column(nullable = false,
-            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
-    )
-    private boolean enabled;
-
-    @CreationTimestamp
     @Column(
             nullable = false,
-            name = ColumnDefinitionConstant.CREATED_AT_COLUMN_NAME,
-            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
+            columnDefinition = ColumnDefinitionConstant.TINYINT_DEFAULT_1_DEFINITION
     )
+    private Boolean enabled;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false,
-            name = ColumnDefinitionConstant.UPDATED_AT_COLUMN_NAME,
-            columnDefinition = ColumnDefinitionConstant.TIMESTAMP_DEFINITION
-    )
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
-    private TypeProduct type;
+    private TypeProductCatalog type;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -72,5 +66,16 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<CategoryProduct> categories = new HashSet<>();
+    private Set<CategoryProductCatalog> categories = new HashSet<>();
+
+    @PrePersist
+    void preInsert() {
+        this.enabled = true;
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        if (this.enabled == null)
+            this.enabled = true;
+    }
 }
