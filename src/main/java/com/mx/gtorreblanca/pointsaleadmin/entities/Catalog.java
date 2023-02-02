@@ -2,12 +2,11 @@ package com.mx.gtorreblanca.pointsaleadmin.entities;
 
 import com.mx.gtorreblanca.pointsaleadmin.constants.ColumnDefinitionConstant;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.AllArgsConstructor;
 
-@Entity
-@Inheritance
-@Getter
-@Setter
+@MappedSuperclass
+@Data
 @AllArgsConstructor
 public class Catalog {
 
